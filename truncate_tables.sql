@@ -1,0 +1,18 @@
+﻿SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE `admins`;
+TRUNCATE TABLE `debitprofits`;
+TRUNCATE TABLE `deposits`;
+TRUNCATE TABLE `earnings`;
+TRUNCATE TABLE `failed_jobs`;
+TRUNCATE TABLE `kycs`;
+TRUNCATE TABLE `notifications`;
+TRUNCATE TABLE `photos`;
+TRUNCATE TABLE `plans`;
+TRUNCATE TABLE `profits`;
+TRUNCATE TABLE `refferals`;
+TRUNCATE TABLE `traders`;
+TRUNCATE TABLE `transactions`;
+TRUNCATE TABLE `users`;
+TRUNCATE TABLE `withdrawals`;
+TRUNCATE TABLE `password_reset_tokens`;
+SET FOREIGN_KEY_CHECKS = 1;
