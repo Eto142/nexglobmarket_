@@ -13,6 +13,9 @@ use App\Models\Traders;
 use App\Models\Refferal;
 use App\Models\Withdrawal;
 use App\Mail\sendUserEmail;
+use App\Mail\DepositApproveEmail;
+use App\Mail\WithdrawalApproveEmail;
+use App\Mail\UpdateNotificationMail;
 use App\Models\Debitprofit;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -192,6 +195,9 @@ class UserManagementController extends Controller
         DB::table('deposits')->where('id', $id)->update(['status' => 1]);
         DB::table('transactions')->where('transaction_id', $transaction_id)->update(['status' => 1]);
 
+        $user = User::findOrFail($user_id);
+        Mail::to($user->email)->send(new DepositApproveEmail($user));
+
         return redirect()->back()->with('message', 'Deposit Has Been Approved Successfully');
     }
 
@@ -215,6 +221,11 @@ class UserManagementController extends Controller
 
         DB::table('withdrawals')->where('id', $id)->update(['status' => $request->status]);
         DB::table('transactions')->where('transaction_id', $transaction_id)->update(['status' => $request->status]);
+
+        if ($request->status == 1) {
+            $user = User::findOrFail($user_id);
+            Mail::to($user->email)->send(new WithdrawalApproveEmail($user));
+        }
 
         return redirect()->back()->with('message', 'Withdrawal Has Been Approved Successfully');
     }
@@ -545,6 +556,9 @@ class UserManagementController extends Controller
         $user                    = User::where('id', $id)->first();
         $user->update_notification = $request->update_notification;
         $user->save();
+
+        Mail::to($user->email)->send(new UpdateNotificationMail($request->update_notification));
+
         return back()->with('message', 'Notification update successful');
     }
 

@@ -32,7 +32,7 @@ class sendUserEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Upward Option Trade TEAM',
+            subject: 'NGM Trading',
         );
     }
 
