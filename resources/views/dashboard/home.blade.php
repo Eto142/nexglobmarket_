@@ -1,7 +1,90 @@
 @include('dashboard.header')
 
-                       
-        {{-- Only show modal if profit_limit_status == 1 --}}
+{{-- KYC Verification Banner --}}
+<style>
+    .kyc-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0 0 10px 0;
+        padding: 10px 14px;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+    .kyc-banner--warning {
+        background: linear-gradient(135deg, #fff3cd, #ffe69c);
+        border-left: 5px solid #f0a500;
+        box-shadow: 0 2px 8px rgba(240,165,0,0.15);
+    }
+    .kyc-banner--danger {
+        background: linear-gradient(135deg, #f8d7da, #f5c2c7);
+        border-left: 5px solid #dc3545;
+        box-shadow: 0 2px 8px rgba(220,53,69,0.15);
+    }
+    .kyc-banner__left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1 1 0;
+        min-width: 0;
+    }
+    .kyc-banner__icon {
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: #fff;
+    }
+    .kyc-banner__icon--warning { background: #f0a500; }
+    .kyc-banner__icon--danger  { background: #dc3545; }
+    .kyc-banner__title {
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 1.3;
+    }
+    .kyc-banner--warning .kyc-banner__title { color: #7a4f00; }
+    .kyc-banner--danger  .kyc-banner__title { color: #58151c; }
+    .kyc-banner__text {
+        font-size: 13px;
+        margin-top: 3px;
+        line-height: 1.45;
+    }
+    .kyc-banner--warning .kyc-banner__text { color: #856404; }
+    .kyc-banner--danger  .kyc-banner__text { color: #842029; }
+    .kyc-banner__btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        white-space: nowrap;
+        color: #fff;
+        text-align: center;
+        flex-shrink: 0;
+    }
+    .kyc-banner__btn--warning { background: #f0a500; }
+    .kyc-banner__btn--danger  { background: #dc3545; }
+    @media (max-width: 480px) {
+        .kyc-banner {
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 10px 10px;
+            padding: 14px 14px;
+        }
+        .kyc-banner__btn {
+            width: 100%;
+            padding: 11px 0;
+        }
+    }
+</style>
+
 @if(Auth::user()->profit_limit_status == 1)
     <!-- Modal Trigger (hidden, auto-open) -->
     <button type="button" class="btn btn-primary d-none" id="profitLimitModalBtn" data-bs-toggle="modal" data-bs-target="#profitLimitModal">
@@ -52,7 +135,32 @@
     
      <div class="content-page">
       <div class="content">
-        <div class="container mt-5">
+        <div class="container mt-3">
+
+@if(Auth::user()->kyc_status == '0')
+<div class="kyc-banner kyc-banner--warning">
+    <div class="kyc-banner__left">
+        <div class="kyc-banner__icon kyc-banner__icon--warning">⚠️</div>
+        <div>
+            <div class="kyc-banner__title">Identity Verification Required</div>
+            <div class="kyc-banner__text">Your account is not yet verified. Please complete KYC to unlock full trading features and withdrawals.</div>
+        </div>
+    </div>
+    <a href="{{ route('identityverify') }}" class="kyc-banner__btn kyc-banner__btn--warning">Verify Now →</a>
+</div>
+@elseif(Auth::user()->kyc_status == '2')
+<div class="kyc-banner kyc-banner--danger">
+    <div class="kyc-banner__left">
+        <div class="kyc-banner__icon kyc-banner__icon--danger">❌</div>
+        <div>
+            <div class="kyc-banner__title">KYC Verification Rejected</div>
+            <div class="kyc-banner__text">Your KYC submission was rejected. Please resubmit your documents to continue.</div>
+        </div>
+    </div>
+    <a href="{{ route('identityverify') }}" class="kyc-banner__btn kyc-banner__btn--danger">Resubmit KYC →</a>
+</div>
+@endif
+
             <h4 class="page-title">Trading</h4>
             <marquee class="marquee" behavior="scroll" direction="left" scrollamount="5">
  Notification: {{Auth::user()->update_notification}}
