@@ -716,4 +716,30 @@ class UserManagementController extends Controller
         $update->save();
         return back()->with('status', 'Signal Strength Updated Successfully');
     }
+
+    public function toggleKycNotice(Request $request, $id)
+    {
+        $request->validate([
+            'show_kyc_notice' => 'required|in:0,1',
+        ]);
+
+        $user                  = User::findOrFail($id);
+        $user->show_kyc_notice = $request->show_kyc_notice;
+        $user->save();
+
+        return back()->with('message', 'KYC notice display updated successfully');
+    }
+
+    public function toggleSignalDisplay(Request $request, $id)
+    {
+        $request->validate([
+            'show_signal_strength' => 'required|in:0,1',
+        ]);
+
+        $user                       = User::findOrFail($id);
+        $user->show_signal_strength = $request->show_signal_strength;
+        $user->save();
+
+        return back()->with('message', 'Signal strength display updated successfully');
+    }
 }

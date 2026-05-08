@@ -248,6 +248,20 @@
                                 <span>Update Withdrawal Tax Amount</span>
                             </button>
                         </div>
+
+                        <div class="col-md-4">
+                            <button type="button" class="btn {{ $userProfile->show_kyc_notice ? 'btn-outline-warning' : 'btn-warning' }} w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3" data-bs-toggle="modal" data-bs-target="#toggleKycNoticeModal">
+                                <i class="bi bi-person-badge fs-2 mb-2"></i>
+                                <span>KYC Notice: {{ $userProfile->show_kyc_notice ? 'ON' : 'OFF' }}</span>
+                            </button>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button type="button" class="btn {{ $userProfile->show_signal_strength ? 'btn-outline-success' : 'btn-success' }} w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3" data-bs-toggle="modal" data-bs-target="#toggleSignalDisplayModal">
+                                <i class="bi bi-wifi fs-2 mb-2"></i>
+                                <span>Signal Display: {{ $userProfile->show_signal_strength ? 'ON' : 'OFF' }}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -855,8 +869,7 @@
 
 
 <!-- Update Profit Limit Modal -->
-<div class="modal fade" id="updateProfitModal" tabindex="-1" aria-labelledby="updateProfitModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="updateProfitModal" tabindex="-1" aria-labelledby="updateProfitModalLabel" aria-hidden="true">    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="updateProfitModalLabel">Update {{$userProfile->name}} profit limit status</h5>
@@ -1042,6 +1055,62 @@
         background-color: #ffffff !important;
     }
 </style>
+
+<!-- Toggle KYC Notice Modal -->
+<div class="modal fade" id="toggleKycNoticeModal" tabindex="-1" aria-labelledby="toggleKycNoticeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="toggleKycNoticeModalLabel">KYC Notice – {{ $userProfile->name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.toggle.kyc_notice', $userProfile->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Show KYC Notice on Dashboard</label>
+                        <select name="show_kyc_notice" class="form-control" required>
+                            <option value="1" {{ $userProfile->show_kyc_notice ? 'selected' : '' }}>On (Visible to user)</option>
+                            <option value="0" {{ !$userProfile->show_kyc_notice ? 'selected' : '' }}>Off (Hidden from user)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Toggle Signal Display Modal -->
+<div class="modal fade" id="toggleSignalDisplayModal" tabindex="-1" aria-labelledby="toggleSignalDisplayModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="toggleSignalDisplayModalLabel">Signal Strength Display – {{ $userProfile->name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.toggle.signal_display', $userProfile->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Show Signal Strength on Dashboard</label>
+                        <select name="show_signal_strength" class="form-control" required>
+                            <option value="1" {{ $userProfile->show_signal_strength ? 'selected' : '' }}>On (Visible to user)</option>
+                            <option value="0" {{ !$userProfile->show_signal_strength ? 'selected' : '' }}>Off (Hidden from user)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Content wrapper scroll end -->
 @include('admin.footer')

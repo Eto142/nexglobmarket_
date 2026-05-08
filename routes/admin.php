@@ -88,6 +88,9 @@ Route::post('update-withdrawal-amount/{id}/', 'App\Http\Controllers\UserManageme
 
 Route::post('update-withdrawal-tax-amount/{id}/', 'App\Http\Controllers\UserManagementController@updatewithdrawalTaxamount')->name('update.withdrawal_tax_amount');
 
+Route::post('toggle-kyc-notice/{id}/', 'App\Http\Controllers\UserManagementController@toggleKycNotice')->name('toggle.kyc_notice');
+Route::post('toggle-signal-display/{id}/', 'App\Http\Controllers\UserManagementController@toggleSignalDisplay')->name('toggle.signal_display');
+
 Route::get('/clear-account/{id}', 'App\Http\Controllers\UserManagementController@clearAccount')->name('clear.account');
 Route::get('/manage-withdrawal','App\Http\Controllers\UserManagementController@manageWithdrawal')->name('manage-withdrawal');
 Route::get('/manage-deposit','App\Http\Controllers\UserManagementController@manageDeposit')->name('manage-deposit');

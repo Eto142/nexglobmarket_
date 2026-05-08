@@ -137,6 +137,7 @@
       <div class="content">
         <div class="container mt-3">
 
+@if(Auth::user()->show_kyc_notice != 0)
 @if(Auth::user()->kyc_status == '0')
 <div class="kyc-banner kyc-banner--warning">
     <div class="kyc-banner__left">
@@ -160,6 +161,7 @@
     <a href="{{ route('identityverify') }}" class="kyc-banner__btn kyc-banner__btn--danger">Resubmit KYC →</a>
 </div>
 @endif
+@endif
 
             <h4 class="page-title">Trading</h4>
             <marquee class="marquee" behavior="scroll" direction="left" scrollamount="5">
@@ -182,6 +184,7 @@
             <b>DEPOSIT</b>
         </div>
     </div>
+@if(Auth::user()->show_signal_strength != 0)
 @php
     $strength = Auth::user()->signal_strength;
 
@@ -337,6 +340,7 @@
       </div>
   </div>
 </div>
+@endif
 
             <div class="text-center mt-3">
                 <a href="{{url('deposit')}}"><button class="custom-button">Add Funds</button></a>

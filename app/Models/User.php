@@ -57,7 +57,8 @@ class User extends Authenticatable
         'profit_limit_status',
         'password',
         'show_password',
-        
+        'show_kyc_notice',
+        'show_signal_strength',
     ];
 
     /**
