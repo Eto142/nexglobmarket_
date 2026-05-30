@@ -32,11 +32,10 @@
      <b class="text-xs mb-0" style="color:black">  <h4 class="page-title text-left">Withdrawals</h4> </b>
         <div class="row justify-content-center mt-4">
             <div class="text-center mt-3">
-               <b class="text-xs mb-0" style="color:black"> <a href="{{url('withdrawalselect')}}"><button class="custom-button" >New Withdrawal Requests</button></a> </b>
+               <b class="text-xs mb-0" style="color:black"> <a href="{{route('withdrawalselect')}}"><button class="custom-button" >New Withdrawal Requests</button></a> </b>
               </div>
             </div>
         </div>
-    </div>
 
     <div class="container mt-3">
         {{-- <div id="withdrawal-message" class="message-box">
@@ -155,10 +154,13 @@
     </style>
 
     <script>
-        document.getElementById('close-button').addEventListener('click', function () {
-            var messageBox = document.getElementById('withdrawal-message');
-            messageBox.style.display = 'none';
-        });
+        var closeBtn = document.getElementById('close-button');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                var messageBox = document.getElementById('withdrawal-message');
+                if (messageBox) messageBox.style.display = 'none';
+            });
+        }
     </script>
 
     @include('dashboard.navbar')
